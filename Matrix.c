@@ -27,7 +27,8 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     if ((*matrix)->data == NULL) {
         return ERROR_ALLOCATING_MEMORY;
     }
-
+    
+    //intalizing the matrix cells
     for (int i = 0; i < height; i++) {
          ((*matrix)->data)[i] = (double*) malloc(width * sizeof(double));
          if (((*matrix)->data)[i] == NULL) {
