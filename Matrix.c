@@ -1,5 +1,8 @@
-#include "Matrix.h"
 #include <stdlib.h>
+
+#include "Matrix.h"
+#include "ErrorCode.c"
+
 
 struct Matrix {
      int numRows; // number of rows

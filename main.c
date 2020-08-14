@@ -4,20 +4,24 @@
 void print_matrix(PMatrix matrix);
 
 int main() {
-    //allocating memory to the PMatrix pointer.
+    //creates matrix.
     PMatrix *matrix = (PMatrix*) malloc(sizeof(PMatrix));
     if (matrix == NULL) {
         printf("oh no matrix == NULL\n");
         return 1;
     }
 
-    //creates matrix
     matrix_create(matrix, 5, 5);
     printf("Created matrix:\n");
     print_matrix(*matrix);
 
     //copy matrix
-    PMatrix *copyMatrix;
+    PMatrix *copyMatrix = (PMatrix*) malloc(sizeof(PMatrix));
+    if (matrix == NULL) {
+        printf("oh no copyMatrix == NULL\n");
+        return 1;
+    }
+
     matrix_copy(copyMatrix, *matrix);
     printf("copied matrix:\n");
     print_matrix(*copyMatrix);
