@@ -54,9 +54,9 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     int width = source->numCols;
 
     //creates the copy matrix
-    ErrorCode e = create_matrix(result, height, width);
-    if (!error_isSuccess(e)) {
-        return e;
+    ErrorCode error = matrix_create(result, height, width);
+    if (!error_isSuccess(error)) {
+        return error;
     }
 
     //intalizing the matrix cells
