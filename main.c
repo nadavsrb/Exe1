@@ -19,7 +19,6 @@ int main() {
 
 void print_matrix(PMatrix matrix){
     for (int i = 0; i < (matrix->numRows); i++){
-
         for (int j = 0; j < (matrix->numCols); j++){
             printf("%f|", (matrix->data)[i][j]);
         }

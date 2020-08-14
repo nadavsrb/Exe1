@@ -21,7 +21,7 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
 
     //reset the matrix variables
     (*matrix)->numRows = height;
-    (*matrix)->numRows = width;
+    (*matrix)->numCols = width;
 
     (*matrix)->data = (double**) malloc(height * sizeof(double*));
     if ((*matrix)->data == NULL) {
