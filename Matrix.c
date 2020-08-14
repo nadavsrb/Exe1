@@ -71,3 +71,25 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
 
     return ERROR_SUCCESS;
 }
+
+void matrix_destroy(PMatrix matrix) {
+    //if matrix not poins to a matrix
+    if (matrix == NULL) {
+        return;
+    }
+
+     //var for helping programing
+    int height = matrix->numRows;
+    int width = matrix->numCols;
+
+    //free each row
+    for (int i = 0; i < height; i++) {
+         free((matrix->data)[i]);
+    }
+
+    //free rows pointer
+    free(matrix->data);
+
+    //free the pointer to the matrix
+    free(matrix);
+}
