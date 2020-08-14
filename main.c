@@ -23,9 +23,18 @@ int main() {
     }
 
     matrix_copy(copyMatrix, *matrix);
-    printf("copied matrix:\n");
+    printf("Copied matrix:\n");
     print_matrix(*copyMatrix);
 
+    //distroying the matrixes
+    matrix_destroy(*matrix);
+    matrix_destroy(*copyMatrix);
+    printf("Matrixed distroyed\n");
+
+    //free pointers
+    free(matrix);
+    free(copyMatrix);
+    printf("PMatrixed distroyed\n");
 
     return 0;
 }
