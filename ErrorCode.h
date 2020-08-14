@@ -6,6 +6,8 @@
 typedef enum {
     // DON'T CHANGE THIS VALUE!
     ERROR_SUCCESS = 0,
+    ERROR_ALLOCATING_MEMORY = 1,
+    ERROR_PARAMETER_IS_NULL = 2, 
 } ErrorCode;
 
 /**
