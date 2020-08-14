@@ -42,3 +42,29 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
 
     return ERROR_SUCCESS;
 }
+
+ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
+    //if got null
+    if (result == NULL || source == NULL) {
+        return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //var for helping programing
+    int height = source->numRows;
+    int width = source->numCols;
+
+    //creates the copy matrix
+    ErrorCode e = create_matrix(result, height, width);
+    if (!error_isSuccess(e)) {
+        return e;
+    }
+
+    //intalizing the matrix cells
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+        ((*result)->data)[i][j] = (source->data)[i][j];
+        }
+    }
+
+    return ERROR_SUCCESS;
+}
