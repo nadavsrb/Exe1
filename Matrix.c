@@ -3,6 +3,8 @@
 #include "Matrix.h"
 #include "ErrorCode.c"
 
+//helping method
+ErrorCode check_matrix(CPMatrix matrix);
 
 struct Matrix {
      int numRows; // number of rows
@@ -50,6 +52,12 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     //if got null
     if (result == NULL || source == NULL) {
         return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //checks Matrixe
+    ErrorCode eSource = check_matrix(source);
+    if(!error_isSuccess(eSource)){
+        return eSource;
     }
 
     //var for helping programing
@@ -100,6 +108,12 @@ ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t* result){
         return  ERROR_PARAMETER_IS_NULL;
     }
 
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return e;
+    }
+
     //The height of a matrix is the num of rows she has.
     *result = matrix->numRows;
 
@@ -110,6 +124,12 @@ ErrorCode matrix_getWidth(CPMatrix matrix, uint32_t* result){
     //if got null
     if (matrix == NULL || result == NULL) {
         return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return e;
     }
 
     //The width of a matrix is the num of colums she has.
@@ -123,6 +143,12 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     //if got null
     if (matrix == NULL) {
         return  ERROR_PARAMETER_IS_NULL;
+    }
+    
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return e;
     }
 
     //checks the index are in boundary
@@ -144,6 +170,12 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
         return  ERROR_PARAMETER_IS_NULL;
     }
 
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return e;
+    }
+
     //checks the index are in boundary
     if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
         || (colIndex < 0 || colIndex >= (matrix->numCols))) {
@@ -161,6 +193,18 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
     if (result == NULL || lhs == NULL || rhs == NULL) {
         return  ERROR_PARAMETER_IS_NULL;
     }
+
+    //checks Matrixes
+    ErrorCode eLhs = check_matrix(lhs);
+    if(!error_isSuccess(eLhs)){
+        return eLhs;
+    }
+
+    ErrorCode eRhs = check_matrix(rhs);
+    if(!error_isSuccess(eRhs)){
+        return eRhs;
+    }
+
 
     //checks if can be added
     if ((lhs->numRows != rhs->numRows) || (lhs->numCols != rhs->numCols)) {
@@ -195,6 +239,17 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
     //if got null
     if (result == NULL || lhs == NULL || rhs == NULL) {
         return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //checks Matrixes
+    ErrorCode eLhs = check_matrix(lhs);
+    if(!error_isSuccess(eLhs)){
+        return eLhs;
+    }
+
+    ErrorCode eRhs = check_matrix(rhs);
+    if(!error_isSuccess(eRhs)){
+        return eRhs;
     }
 
     //checks if can be multiply
@@ -242,6 +297,12 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
         return  ERROR_PARAMETER_IS_NULL;
     }
 
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return e;
+    }
+
     //var for helping programing (stands for the size of result)
     int height = matrix->numRows;
     int width = matrix->numCols;
@@ -259,4 +320,36 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
     }
 
     return ERROR_SUCCESS; 
+}
+
+/**
+ * @brief check if matrix is intalized right (no null in it).
+ * 
+ * @param matrix the matrix to check.
+ * @return ErrorCode
+ */
+ErrorCode check_matrix(CPMatrix matrix){
+    if (matrix == NULL) {
+        return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
+    }
+
+    if (matrix -> data == NULL){
+        return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
+    }
+
+    if (matrix->numCols < 0 || matrix->numRows < 0){
+        return ERROR_NEGATIVE_MATRIX_SIZE;
+    }
+
+    //You can add this check but it can cost in run time 
+    //(I prefered not to add because it batter to realy on the programer
+    //then cost in run time)
+
+    // for (int i = 0; i < (matrix->numRows); i++) {
+    //     if ((matrix->data)[i] == NULL){
+    //         return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
+    //     }
+    // }
+
+    return ERROR_SUCCESS;
 }
