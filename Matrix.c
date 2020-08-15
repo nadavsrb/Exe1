@@ -209,6 +209,12 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
     //var for help
     int sharedSize = lhs->numCols;
 
+    //creates the result matrix
+    ErrorCode error = matrix_create(result, height, width);
+    if (!error_isSuccess(error)) {
+        return error;
+    }
+
     //multipling the matrixes
     double newVal = 0;
     for (int rowIndex = 0; rowIndex < height; rowIndex++) {

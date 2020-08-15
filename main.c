@@ -65,6 +65,45 @@ int main() {
     printf("The adding matrix:\n");
     print_matrix(*result);
 
+    //Multiplying
+    PMatrix *lhs = (PMatrix*) malloc(sizeof(PMatrix));
+    if (lhs == NULL) {
+        printf("oh no lhs == NULL\n");
+        return 1;
+    }
+
+    matrix_create(lhs, 3, 1);
+    matrix_setValue(*lhs, 0, 0, -7);
+    matrix_setValue(*lhs, 1, 0, 5);
+    matrix_setValue(*lhs, 2, 0, 3);
+
+    printf("lhs:\n");
+    print_matrix(*lhs);
+
+    PMatrix *rhs = (PMatrix*) malloc(sizeof(PMatrix));
+    if (rhs == NULL) {
+        printf("oh no rhs == NULL\n");
+        return 1;
+    }
+
+    matrix_create(rhs, 1, 2);
+    matrix_setValue(*rhs, 0, 0, -4);
+    matrix_setValue(*rhs, 0, 1, (double)2 / 5);
+
+    printf("rhs:\n");
+    print_matrix(*rhs);
+
+    PMatrix *multMatrix = (PMatrix*) malloc(sizeof(PMatrix));
+    if (multMatrix == NULL) {
+        printf("oh no multMatrix == NULL\n");
+        return 1;
+    }
+
+    matrix_multiplyMatrices(multMatrix, *lhs, *rhs);
+
+    printf("multMatrix:\n");
+    print_matrix(*multMatrix);
+
     //distroying the matrixes
     matrix_destroy(*matrix);
     matrix_destroy(*copyMatrix);
@@ -73,6 +112,10 @@ int main() {
     //free pointers
     free(matrix);
     free(copyMatrix);
+    free(result);
+    free(lhs);
+    free(rhs);
+    free(multMatrix);
     printf("PMatrixes distroyed\n");
 
     return 0;
