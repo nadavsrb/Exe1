@@ -1,7 +1,6 @@
 #include <stdlib.h>
 
 #include "Matrix.h"
-#include "ErrorCode.c"
 
 //helping method
 ErrorCode check_matrix(CPMatrix matrix);
