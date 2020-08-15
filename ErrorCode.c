@@ -29,6 +29,6 @@ const char* error_getErrorMessage(ErrorCode code) {
     case ERROR_NEGATIVE_MATRIX_SIZE:
         return "Error: At least one of the sizes in a given matrix is negative";
     default:
-    return NULL;
+    return "";
     }
 }
