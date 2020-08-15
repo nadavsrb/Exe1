@@ -93,3 +93,15 @@ void matrix_destroy(PMatrix matrix) {
     //free the pointer to the matrix
     free(matrix);
 }
+
+ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t* result){
+    //if got null
+    if (matrix == NULL || result == NULL) {
+        return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //The height of a matrix is the num of rows she has.
+    *result = matrix->numRows;
+
+    return ERROR_SUCCESS;
+}
