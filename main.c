@@ -38,6 +38,14 @@ int main() {
     matrix_getHeight(*copyMatrix, copyMatrixWidtht);
     printf("The width of the copied matrix: %d\n", cPWidth);
 
+    //changes the matrix values
+    matrix_setValue(*matrix, 3, 4, (double)5 / 8);
+
+    printf("Created matrix:\n");
+    print_matrix(*matrix);
+    printf("Copied matrix:\n");
+    print_matrix(*copyMatrix);
+
     //distroying the matrixes
     matrix_destroy(*matrix);
     matrix_destroy(*copyMatrix);
