@@ -136,3 +136,22 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
 
     return ERROR_SUCCESS;
 }
+
+ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
+                          double* value){
+    //if got null
+    if (matrix == NULL) {
+        return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //checks the index are in boundary
+    if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
+        || (colIndex < 0 || colIndex >= (matrix->numCols))) {
+        return ERROR_INDEX_OUT_OF_BOUNDAY;
+    }
+
+    //gets the value of the cell
+    *value = (matrix->data)[rowIndex][colIndex];
+
+    return ERROR_SUCCESS;
+}
