@@ -26,20 +26,27 @@ int main() {
     printf("Copied matrix:\n");
     print_matrix(*copyMatrix);
 
+    //the height of the copied matrix
     int cPHeight;
     int* copyMatrixHeight = &cPHeight;
     matrix_getHeight(*copyMatrix, copyMatrixHeight);
     printf("The height of the copied matrix: %d\n", cPHeight);
 
+    //the width of the copied matrix
+    int cPWidth;
+    int* copyMatrixWidtht = &cPWidth;
+    matrix_getHeight(*copyMatrix, copyMatrixWidtht);
+    printf("The width of the copied matrix: %d\n", cPWidth);
+
     //distroying the matrixes
     matrix_destroy(*matrix);
     matrix_destroy(*copyMatrix);
-    printf("Matrixed distroyed\n");
+    printf("Matrixes distroyed\n");
 
     //free pointers
     free(matrix);
     free(copyMatrix);
-    printf("PMatrixed distroyed\n");
+    printf("PMatrixes distroyed\n");
 
     return 0;
 }
