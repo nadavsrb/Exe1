@@ -251,7 +251,7 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
     for (int rowIndex = 0; rowIndex < height; rowIndex++) {
         for (int colIndex = 0; colIndex < width; colIndex++) {
             //calculating the new value
-            newVal += scalar * (matrix->data)[rowIndex][colIndex];
+            newVal = scalar * (matrix->data)[rowIndex][colIndex];
 
             //no need to check for errors because I cared it won't be
             matrix_setValue(matrix, rowIndex, colIndex, newVal);

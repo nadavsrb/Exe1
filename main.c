@@ -65,7 +65,7 @@ int main() {
     printf("The adding matrix:\n");
     print_matrix(*result);
 
-    //Multiplying
+    //Multiplying matrixes
     PMatrix *lhs = (PMatrix*) malloc(sizeof(PMatrix));
     if (lhs == NULL) {
         printf("oh no lhs == NULL\n");
@@ -102,6 +102,11 @@ int main() {
     matrix_multiplyMatrices(multMatrix, *lhs, *rhs);
 
     printf("multMatrix:\n");
+    print_matrix(*multMatrix);
+
+    //Multiplying scalar
+    matrix_multiplyWithScalar(*multMatrix, -11);
+    printf("multMatrix(by scalar):\n");
     print_matrix(*multMatrix);
 
     //distroying the matrixes
