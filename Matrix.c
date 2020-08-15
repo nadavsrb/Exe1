@@ -17,6 +17,11 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
         return  ERROR_PARAMETER_IS_NULL;
     }
 
+    //check the hight and width are positive
+    if (height <= 0 || width <= 0){
+        return ERROR_NOT_POSITIVE_MATRIX_SIZE;
+    }
+
     //Allocating memory for the matrix variables
     *matrix = (PMatrix) malloc(sizeof(struct Matrix));
     if ((*matrix) == NULL) {
@@ -337,9 +342,9 @@ ErrorCode check_matrix(CPMatrix matrix){
         return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
     }
 
-    //check the hight and width are not negative
-    if (matrix->numCols < 0 || matrix->numRows < 0){
-        return ERROR_NEGATIVE_MATRIX_SIZE;
+    //check the hight and width are positive
+    if (matrix->numCols <= 0 || matrix->numRows <= 0){
+        return ERROR_NOT_POSITIVE_MATRIX_SIZE;
     }
 
     //You can add this check but it may cost in run time 

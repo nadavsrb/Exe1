@@ -12,7 +12,7 @@ typedef enum {
     ERROR_MATRIX_IN_DIFFERENT_SIZE = 4,
     ERROR_MATRIX_CANT_BE_MULTIPLY = 5,
     ERROR_MATRIX_DOESNT_INTALIZED_WELL = 6, //one or more value in the matrix is NULL
-    ERROR_NEGATIVE_MATRIX_SIZE = 7
+    ERROR_NOT_POSITIVE_MATRIX_SIZE = 7
 } ErrorCode;
 
 /**
