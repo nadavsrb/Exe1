@@ -32,16 +32,16 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     if ((*matrix)->data == NULL) {
         return ERROR_ALLOCATING_MEMORY;
     }
-    
+
     //intalizing the matrix cells
-    for (int i = 0; i < height; i++) {
-         ((*matrix)->data)[i] = (double*) malloc(width * sizeof(double));
-         if (((*matrix)->data)[i] == NULL) {
+    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
+         ((*matrix)->data)[rowIndex] = (double*) malloc(width * sizeof(double));
+         if (((*matrix)->data)[rowIndex] == NULL) {
              return ERROR_ALLOCATING_MEMORY;
              }
 
-        for (int j = 0; j < width; j++) {
-        ((*matrix)->data)[i][j] = 0;
+        for (int colIndex = 0; colIndex < width; colIndex++) {
+        ((*matrix)->data)[rowIndex][colIndex] = 0;
         }
     }
 
@@ -71,9 +71,9 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     }
 
     //intalizing the matrix cells
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-        ((*result)->data)[i][j] = (source->data)[i][j];
+    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (int colIndex = 0; colIndex < width; colIndex++) {
+        ((*result)->data)[rowIndex][colIndex] = (source->data)[rowIndex][colIndex];
         }
     }
 
