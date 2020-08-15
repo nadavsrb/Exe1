@@ -329,6 +329,7 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
  * @return ErrorCode
  */
 ErrorCode check_matrix(CPMatrix matrix){
+    //checks if there are NULLs
     if (matrix == NULL) {
         return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
     }
@@ -337,6 +338,7 @@ ErrorCode check_matrix(CPMatrix matrix){
         return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
     }
 
+    //check the hight and width are not negative
     if (matrix->numCols < 0 || matrix->numRows < 0){
         return ERROR_NEGATIVE_MATRIX_SIZE;
     }

@@ -27,14 +27,14 @@ int main() {
     print_matrix(*copyMatrix);
 
     //the height of the copied matrix
-    int cPHeight;
-    int* copyMatrixHeight = &cPHeight;
+    uint32_t cPHeight;
+    uint32_t *copyMatrixHeight = &cPHeight;
     matrix_getHeight(*copyMatrix, copyMatrixHeight);
     printf("The height of the copied matrix: %d\n", cPHeight);
 
     //the width of the copied matrix
-    int cPWidth;
-    int* copyMatrixWidtht = &cPWidth;
+    uint32_t cPWidth;
+    uint32_t* copyMatrixWidtht = &cPWidth;
     matrix_getHeight(*copyMatrix, copyMatrixWidtht);
     printf("The width of the copied matrix: %d\n", cPWidth);
 
