@@ -154,7 +154,7 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     //checks the index are in boundary
     if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
         || (colIndex < 0 || colIndex >= (matrix->numCols))) {
-        return ERROR_INDEX_OUT_OF_BOUNDAY;
+        return ERROR_INDEX_OUT_OF_BOUNDARY;
     }
 
     //change the value of the cell
@@ -179,7 +179,7 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     //checks the index are in boundary
     if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
         || (colIndex < 0 || colIndex >= (matrix->numCols))) {
-        return ERROR_INDEX_OUT_OF_BOUNDAY;
+        return ERROR_INDEX_OUT_OF_BOUNDARY;
     }
 
     //gets the value of the cell
@@ -341,7 +341,7 @@ ErrorCode check_matrix(CPMatrix matrix){
         return ERROR_NEGATIVE_MATRIX_SIZE;
     }
 
-    //You can add this check but it can cost in run time 
+    //You can add this check but it may cost in run time 
     //(I prefered not to add because it batter to realy on the programer
     //then cost in run time)
 
