@@ -11,13 +11,13 @@ int main() {
         return 1;
     }
 
-    matrix_create(matrix, 5, 5);
+    matrix_create(matrix, 4, 5);
     printf("Created matrix:\n");
     print_matrix(*matrix);
 
     //copy matrix
     PMatrix *copyMatrix = (PMatrix*) malloc(sizeof(PMatrix));
-    if (matrix == NULL) {
+    if (copyMatrix == NULL) {
         printf("oh no copyMatrix == NULL\n");
         return 1;
     }
@@ -40,6 +40,7 @@ int main() {
 
     //changes the matrix values
     matrix_setValue(*matrix, 3, 4, (double)5 / 8);
+    matrix_setValue(*copyMatrix, 1, 2, (double)78 / 812);
 
     printf("Created matrix:\n");
     print_matrix(*matrix);
@@ -51,6 +52,18 @@ int main() {
     double* getValue = &value;
     matrix_getValue(*matrix, 3, 4, getValue);
     printf("The value of (3,4) in created matrix is: %f\n", value);
+    
+    //adding the matrix
+    PMatrix* result = (PMatrix*) malloc(sizeof(PMatrix));
+    if (result == NULL) {
+        printf("oh no result == NULL\n");
+        return 1;
+    }
+
+    matrix_add(result, *matrix, *copyMatrix);
+
+    printf("The adding matrix:\n");
+    print_matrix(*result);
 
     //distroying the matrixes
     matrix_destroy(*matrix);

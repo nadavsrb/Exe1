@@ -184,7 +184,7 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
             newVal = (lhs->data)[rowIndex][colIndex] + (rhs->data)[rowIndex][colIndex];
 
             //no need to check for errors because I cared it won't be
-            matrix_setValue(result, rowIndex, colIndex, newVal);
+            matrix_setValue(*result, rowIndex, colIndex, newVal);
         }
     }
 
