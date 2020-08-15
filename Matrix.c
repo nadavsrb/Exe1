@@ -190,3 +190,42 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
 
     return ERROR_SUCCESS;
 }
+
+ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
+    //if got null
+    if (result == NULL || lhs == NULL || rhs == NULL) {
+        return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //checks if can be multiply
+    if (lhs->numCols != rhs->numRows) {
+        return ERROR_MATRIX_CANT_BE_MULTIPLY;
+    }
+
+    //var for helping programing (stands for the size of result)
+    int height = lhs->numRows;
+    int width = rhs->numCols;
+
+    //var for help
+    int sharedSize = lhs->numCols;
+
+    //multipling the matrixes
+    double newVal = 0;
+    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (int colIndex = 0; colIndex < width; colIndex++) {
+
+            //intalizing the new value
+            newVal = 0;
+
+            //calculating the new value
+            for (int multIndex = 0; multIndex < sharedSize; multIndex++){
+                newVal += (lhs->data)[rowIndex][multIndex] * (rhs->data)[multIndex][colIndex];
+            }
+
+            //no need to check for errors because I cared it won't be
+            matrix_setValue(*result, rowIndex, colIndex, newVal);
+        }
+    }
+
+    return ERROR_SUCCESS; 
+}
