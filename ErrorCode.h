@@ -9,6 +9,7 @@ typedef enum {
     ERROR_ALLOCATING_MEMORY = 1,
     ERROR_PARAMETER_IS_NULL = 2,
     ERROR_INDEX_OUT_OF_BOUNDAY = 3,
+    ERROR_MATRIX_IN_DIFFERENT_SIZE = 4,
 } ErrorCode;
 
 /**

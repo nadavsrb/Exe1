@@ -155,3 +155,38 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
 
     return ERROR_SUCCESS;
 }
+
+ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
+    //if got null
+    if (result == NULL || lhs == NULL || rhs == NULL) {
+        return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //checks if can be added
+    if ((lhs->numRows != rhs->numRows) || (lhs->numCols != rhs->numCols)) {
+        return ERROR_MATRIX_IN_DIFFERENT_SIZE;
+    }
+
+    //var for helping programing
+    int height = lhs->numRows;
+    int width = lhs->numCols;
+
+    //creates the result matrix
+    ErrorCode error = matrix_create(result, height, width);
+    if (!error_isSuccess(error)) {
+        return error;
+    }
+
+    //adding the matrixes
+    double newVal = 0;
+    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (int colIndex = 0; colIndex < width; colIndex++) {
+            newVal = (lhs->data)[rowIndex][colIndex] + (rhs->data)[rowIndex][colIndex];
+
+            //no need to check for errors because I cared it won't be
+            matrix_setValue(result, rowIndex, colIndex, newVal);
+        }
+    }
+
+    return ERROR_SUCCESS;
+}
