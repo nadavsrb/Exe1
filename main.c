@@ -26,6 +26,11 @@ int main() {
     printf("Copied matrix:\n");
     print_matrix(*copyMatrix);
 
+    int cPHeight;
+    int* copyMatrixHeight = &cPHeight;
+    matrix_getHeight(*copyMatrix, copyMatrixHeight);
+    printf("The height of the copied matrix: %d\n", cPHeight);
+
     //distroying the matrixes
     matrix_destroy(*matrix);
     matrix_destroy(*copyMatrix);
