@@ -46,6 +46,12 @@ int main() {
     printf("Copied matrix:\n");
     print_matrix(*copyMatrix);
 
+    //get matrix value
+    double value;
+    double* getValue = &value;
+    matrix_getValue(*matrix, 3, 4, getValue);
+    printf("The value of (3,4) in created matrix is: %f\n", value);
+
     //distroying the matrixes
     matrix_destroy(*matrix);
     matrix_destroy(*copyMatrix);
