@@ -166,11 +166,11 @@ int main() {
     ec = matrix_copy(&m3, m4);
     if (ec)
         printf("CHECK #2.3.1 | Error in matrix_copy: %s", error_getErrorMessage(ec));
-    else if (isEqual(m1, m2) == FLAG_NOT_EQUAL)
+    else if (isEqual(m3, m4) == FLAG_NOT_EQUAL)
         printf("CHECK #2.3.2 | Fix matrix_copy. It didn't copy the matrix...");
-    else if (isEqual(m1, m2) == FLAG_SIZES)
+    else if (isEqual(m3, m4) == FLAG_SIZES)
         printf("CHECK #2.3.3 | Fix matrix_copy. The new matrix and the old one aren't in the same size,");
-    else if (m1 == m2)
+    else if (m3 == m4)
         printf("CHECK #2.3.4 | Fix matrix_copy. You didn't create a DEEP copy...");
     else
         printf("CHECK #2.3.5 WAS SUCCESSFUL");

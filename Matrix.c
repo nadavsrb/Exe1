@@ -85,6 +85,17 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
 }
 
 void matrix_destroy(PMatrix matrix) {
+    //if got null
+    if (matrix == NULL) {
+        return;
+    }
+
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return;
+    }
+
     //if matrix not poins to a matrix
     if (matrix == NULL) {
         return;
@@ -170,7 +181,7 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
 ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
                           double* value){
     //if got null
-    if (matrix == NULL) {
+    if (matrix == NULL || value == NULL) {
         return  ERROR_PARAMETER_IS_NULL;
     }
 
