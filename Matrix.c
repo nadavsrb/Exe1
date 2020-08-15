@@ -105,3 +105,15 @@ ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t* result){
 
     return ERROR_SUCCESS;
 }
+
+ErrorCode matrix_getWidth(CPMatrix matrix, uint32_t* result){
+    //if got null
+    if (matrix == NULL || result == NULL) {
+        return  ERROR_PARAMETER_IS_NULL;
+    }
+
+    //The width of a matrix is the num of colums she has.
+    *result = matrix->numCols;
+
+    return ERROR_SUCCESS;
+}
