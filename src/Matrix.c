@@ -34,6 +34,9 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
 
     (*matrix)->data = (double**) malloc(height * sizeof(double*));
     if ((*matrix)->data == NULL) {
+        //free the pointer to the matrix
+         free(*matrix);
+
         return ERROR_ALLOCATING_MEMORY;
     }
 
@@ -41,8 +44,19 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     for (int rowIndex = 0; rowIndex < height; rowIndex++) {
          ((*matrix)->data)[rowIndex] = (double*) malloc(width * sizeof(double));
          if (((*matrix)->data)[rowIndex] == NULL) {
-             return ERROR_ALLOCATING_MEMORY;
-             }
+                 //free each row that was alocated
+                for (int i = 0; i < rowIndex - 1; i++) {
+                    free(((*matrix)->data)[i]);
+                }
+
+                 //free rows pointer
+                free((*matrix)->data);
+
+                //free the pointer to the matrix
+                free(*matrix);
+
+                return ERROR_ALLOCATING_MEMORY;
+            }
 
         for (int colIndex = 0; colIndex < width; colIndex++) {
         ((*matrix)->data)[rowIndex][colIndex] = 0;
@@ -93,11 +107,6 @@ void matrix_destroy(PMatrix matrix) {
     //checks Matrix
     ErrorCode e = check_matrix(matrix);
     if(!error_isSuccess(e)){
-        return;
-    }
-
-    //if matrix not poins to a matrix
-    if (matrix == NULL) {
         return;
     }
 

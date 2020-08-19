@@ -28,7 +28,7 @@ const char* error_getErrorMessage(ErrorCode code) {
         return "Error: One or more value in a given matrix is NULL";
     case ERROR_NOT_POSITIVE_MATRIX_SIZE:
         return "Error: At least one of the sizes in a given matrix isn't positive";
-    default:
-    return "";
+    default://should never get in
+    return "Error: unknown";
     }
 }
