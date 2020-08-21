@@ -1,16 +1,10 @@
 #include "ErrorCode.h"
 
-bool error_isSuccess(ErrorCode code) {
-    bool success = false;
-
-    if (code == ERROR_SUCCESS) {
-        success = true;
-    }
-
-    return success;
+bool error_isSuccess(const ErrorCode code) {
+    return code == ERROR_SUCCESS;
 }
 
-const char* error_getErrorMessage(ErrorCode code) {
+const char* error_getErrorMessage(const ErrorCode code) {
     switch(code) {
     case ERROR_SUCCESS:
         return "The function was complited successfully";
@@ -20,14 +14,14 @@ const char* error_getErrorMessage(ErrorCode code) {
         return "Error: At least one of the given paramter to the function is NULL";
     case ERROR_INDEX_OUT_OF_BOUNDARY:
         return "Error: At least one of the given index is out of the matrix's boundary";
-    case ERROR_MATRIX_IN_DIFFERENT_SIZE:
+    case ERROR_MATRIXES_IN_DIFFERENT_SIZE:
         return "Error: Can't add the matrixes because they are in different size";
-    case ERROR_MATRIX_CANT_BE_MULTIPLY:
+    case ERROR_MATRIXES_CANT_BE_MULTIPLIED:
         return "Error: Can't multiply the matrixes because the #colsLeftMatrix != #rowsRightMatrix";
-    case ERROR_MATRIX_DOESNT_INTALIZED_WELL:
+    case ERROR_MATRIX_IS_NOT_INTALIZED_WELL:
         return "Error: One or more value in a given matrix is NULL";
-    case ERROR_NOT_POSITIVE_MATRIX_SIZE:
-        return "Error: At least one of the sizes in a given matrix isn't positive";
+    case ERROR_MATRIX_SIZE_EQUALS_ZERO:
+        return "Error: At least one of the sizes (width or lenght) in a given matrix is 0";
     default://should never get in
     return "Error: unknown";
     }
