@@ -112,7 +112,6 @@ void matrix_destroy(PMatrix matrix) {
 
      //var for helping programing
     uint32_t height = matrix->numRows;
-    uint32_t width = matrix->numCols;
 
     //free each row
     for (uint32_t i = 0; i < height; ++i) {
@@ -176,8 +175,8 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     //checks the index are in boundary
-    if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
-        || (colIndex < 0 || colIndex >= (matrix->numCols))) {
+    if ((rowIndex >= (matrix->numRows)) 
+        || (colIndex >= (matrix->numCols))) {
         return ERROR_INDEX_OUT_OF_BOUNDARY;
     }
 
@@ -201,8 +200,8 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     //checks the index are in boundary
-    if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
-        || (colIndex < 0 || colIndex >= (matrix->numCols))) {
+    if ((rowIndex >= (matrix->numRows)) 
+        || (colIndex >= (matrix->numCols))) {
         return ERROR_INDEX_OUT_OF_BOUNDARY;
     }
 
