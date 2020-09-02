@@ -1,0 +1,35 @@
+From ccc48e141b050844ba9ed0d76a9a8dbe0340829e Mon Sep 17 00:00:00 2001
+From: root <root@DESKTOP-HKCE1KB.localdomain>
+Date: Wed, 2 Sep 2020 19:15:15 +0300
+Subject: [PATCH] Moving and editing the cmake
+
+---
+ CMakeLists.txt => src/CMakeLists.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename CMakeLists.txt => src/CMakeLists.txt (68%)
+
+diff --git a/CMakeLists.txt b/src/CMakeLists.txt
+similarity index 68%
+rename from CMakeLists.txt
+rename to src/CMakeLists.txt
+index 4f63bbf..69fdfff 100644
+--- a/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -1,10 +1,10 @@
+ cmake_minimum_required(VERSION 3.0.0)
+-project(ex1 VERSION 0.1.0)
++project(matrix VERSION 0.1.0)
+ 
+ set(C_STANDARD C99)
+-add_library(matrix SHARED src/ErrorCode.c src/Matrix.c)
++add_library(matrix SHARED ErrorCode.c Matrix.c)
+ add_compile_options(-Wall -Wextra -pedantic -Werror)
+ 
+ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+-
++include(CPack)
+\ No newline at end of file
+-- 
+2.25.1
+
