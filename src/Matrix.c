@@ -36,19 +36,13 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     (*matrix)->numRows = height;
     (*matrix)->numCols = width;
 
-    (*matrix)->data = (double*) malloc(height * width * sizeof(double));
+    //alocating & intalizing the memory.
+    (*matrix)->data = (double*) calloc(height * width, sizeof(double));
     if ((*matrix)->data == NULL) {
         //free the pointer to the matrix
          free(*matrix);
 
         return ERROR_ALLOCATING_MEMORY;
-    }
-
-    //intalizing the matrix cells
-    for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex) {
-        for (uint32_t colIndex = 0; colIndex < width; ++colIndex) {
-            *(get_pointer_value(*matrix, rowIndex, colIndex)) = 0;
-        }
     }
 
     return ERROR_SUCCESS;
@@ -377,7 +371,7 @@ double* get_pointer_value(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex) 
             return NULL;
     }
 
-    return matrix->data + rowIndex * matrix->numRows + colIndex;
+    return &matrix->data[rowIndex * matrix->numCols + colIndex];
 }
 
 
@@ -407,5 +401,5 @@ double get_value(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex) {
             return ERROR_IN_GET_VALUE;
     }
 
-    return *(matrix->data + rowIndex * matrix->numRows + colIndex);
+    return matrix->data[rowIndex * matrix->numCols + colIndex];
 }
