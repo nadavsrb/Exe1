@@ -9,10 +9,10 @@ typedef enum {
     ERROR_ALLOCATING_MEMORY = 1,
     ERROR_PARAMETER_IS_NULL = 2,
     ERROR_INDEX_OUT_OF_BOUNDARY = 3,
-    ERROR_MATRIX_IN_DIFFERENT_SIZE = 4,
-    ERROR_MATRIX_CANT_BE_MULTIPLY = 5,
-    ERROR_MATRIX_DOESNT_INTALIZED_WELL = 6, //one or more value in the matrix is NULL
-    ERROR_NOT_POSITIVE_MATRIX_SIZE = 7
+    ERROR_MATRIXES_IN_DIFFERENT_SIZES = 4,
+    ERROR_MATRIXES_CAN_NOT_BE_MULTIPLIED = 5,
+    ERROR_MATRIX_IS_NOT_INTALIZED_WELL = 6, //one or more value in the matrix is NULL
+    ERROR_ZERO_SIZE= 7
 } ErrorCode;
 
 /**
@@ -21,7 +21,7 @@ typedef enum {
  * @param[in] code the error code.
  * @return whether the error code indicates a success or not.
  */
-bool error_isSuccess(ErrorCode code);
+bool error_isSuccess(const ErrorCode code);
 
 /**
  * @brief gets a textual error message for a given error code.
@@ -29,4 +29,4 @@ bool error_isSuccess(ErrorCode code);
  * @param[in] code the error code.
  * @return const char* the textual representation of the error code.
  */
-const char* error_getErrorMessage(ErrorCode code);
+const char* error_getErrorMessage(const ErrorCode code);

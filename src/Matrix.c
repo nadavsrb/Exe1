@@ -18,8 +18,8 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     }
 
     //check the hight and width are positive
-    if (height <= 0 || width <= 0){
-        return ERROR_NOT_POSITIVE_MATRIX_SIZE;
+    if (height == 0 || width == 0){
+        return ERROR_ZERO_SIZE;
     }
 
     //Allocating memory for the matrix variables
@@ -231,7 +231,7 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
 
     //checks if can be added
     if ((lhs->numRows != rhs->numRows) || (lhs->numCols != rhs->numCols)) {
-        return ERROR_MATRIX_IN_DIFFERENT_SIZE;
+        return ERROR_MATRIXES_IN_DIFFERENT_SIZES;
     }
 
     //var for helping programing
@@ -277,7 +277,7 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 
     //checks if can be multiply
     if (lhs->numCols != rhs->numRows) {
-        return ERROR_MATRIX_CANT_BE_MULTIPLY;
+        return ERROR_MATRIXES_CAN_NOT_BE_MULTIPLIED;
     }
 
     //var for helping programing (stands for the size of result)
@@ -354,16 +354,16 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
 ErrorCode check_matrix(CPMatrix matrix){
     //checks if there are NULLs
     if (matrix == NULL) {
-        return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
+        return ERROR_MATRIX_IS_NOT_INTALIZED_WELL;
     }
 
     if (matrix -> data == NULL){
-        return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
+        return ERROR_MATRIX_IS_NOT_INTALIZED_WELL;
     }
 
     //check the hight and width are positive
-    if (matrix->numCols <= 0 || matrix->numRows <= 0){
-        return ERROR_NOT_POSITIVE_MATRIX_SIZE;
+    if (matrix->numCols == 0 || matrix->numRows == 0){
+        return ERROR_ZERO_SIZE;
     }
 
     //You can add this check but it may cost in run time 
