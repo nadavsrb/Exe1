@@ -2,13 +2,17 @@
 
 #include "Matrix.h"
 
+#define ERROR_IN_GET_VALUE -1
+
 //helping method
 ErrorCode check_matrix(CPMatrix matrix);
+double* get_pointer_value(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex);
+double get_value(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex);
 
 struct Matrix {
      uint32_t numRows; // number of rows
      uint32_t numCols; // number of columns
-     double** data; // a pointer to an array of numCols rows that each points to numCols double; 
+     double* data; // a pointer to the allocated memory of the matrix.
 };
 
 ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
@@ -32,7 +36,7 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     (*matrix)->numRows = height;
     (*matrix)->numCols = width;
 
-    (*matrix)->data = (double**) malloc(height * sizeof(double*));
+    (*matrix)->data = (double*) malloc(height * width * sizeof(double));
     if ((*matrix)->data == NULL) {
         //free the pointer to the matrix
          free(*matrix);
@@ -42,24 +46,8 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
 
     //intalizing the matrix cells
     for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
-         ((*matrix)->data)[rowIndex] = (double*) malloc(width * sizeof(double));
-         if (((*matrix)->data)[rowIndex] == NULL) {
-                 //free each row that was alocated
-                for (uint32_t i = 0; i < rowIndex - 1; i++) {
-                    free(((*matrix)->data)[i]);
-                }
-
-                 //free rows pointer
-                free((*matrix)->data);
-
-                //free the pointer to the matrix
-                free(*matrix);
-
-                return ERROR_ALLOCATING_MEMORY;
-            }
-
         for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
-        ((*matrix)->data)[rowIndex][colIndex] = 0;
+            *(get_pointer_value(*matrix, rowIndex, colIndex)) = 0;
         }
     }
 
@@ -91,7 +79,7 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     //intalizing the matrix cells
     for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
         for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
-        ((*result)->data)[rowIndex][colIndex] = (source->data)[rowIndex][colIndex];
+       *(get_pointer_value(*result, rowIndex, colIndex)) = get_value(source, rowIndex, colIndex);
         }
     }
 
@@ -110,15 +98,7 @@ void matrix_destroy(PMatrix matrix) {
         return;
     }
 
-     //var for helping programing
-    uint32_t height = matrix->numRows;
-
-    //free each row
-    for (uint32_t i = 0; i < height; i++) {
-         free((matrix->data)[i]);
-    }
-
-    //free rows pointer
+    //free the matrix located memory
     free(matrix->data);
 
     //free the pointer to the matrix
@@ -181,7 +161,7 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     //change the value of the cell
-    (matrix->data)[rowIndex][colIndex] = value;
+    *(get_pointer_value(matrix, rowIndex, colIndex)) = value;
 
     return ERROR_SUCCESS;
 }
@@ -206,7 +186,7 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     //gets the value of the cell
-    *value = (matrix->data)[rowIndex][colIndex];
+    *value = get_value(matrix, rowIndex, colIndex);
 
     return ERROR_SUCCESS;
 }
@@ -248,7 +228,7 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
     double newVal = 0;
     for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
         for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
-            newVal = (lhs->data)[rowIndex][colIndex] + (rhs->data)[rowIndex][colIndex];
+            newVal = get_value(lhs, rowIndex, colIndex) + get_value(rhs, rowIndex, colIndex);
 
             //no need to check for errors because I cared it won't be
             matrix_setValue(*result, rowIndex, colIndex, newVal);
@@ -303,7 +283,7 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 
             //calculating the new value
             for (uint32_t multIndex = 0; multIndex < sharedSize; multIndex++){
-                newVal += (lhs->data)[rowIndex][multIndex] * (rhs->data)[multIndex][colIndex];
+                newVal += get_value(lhs, rowIndex, multIndex) * get_value(rhs, multIndex ,colIndex);
             }
 
             //no need to check for errors because I cared it won't be
@@ -335,7 +315,7 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
     for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
         for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
             //calculating the new value
-            newVal = scalar * (matrix->data)[rowIndex][colIndex];
+            newVal = scalar * get_value(matrix, rowIndex, colIndex);
 
             //no need to check for errors because I cared it won't be
             matrix_setValue(matrix, rowIndex, colIndex, newVal);
@@ -366,15 +346,66 @@ ErrorCode check_matrix(CPMatrix matrix){
         return ERROR_ZERO_SIZE;
     }
 
-    //You can add this check but it may cost in run time 
-    //(I prefered not to add because it batter to realy on the programer
-    //then cost in run time)
-
-    // for (int i = 0; i < (matrix->numRows); i++) {
-    //     if ((matrix->data)[i] == NULL){
-    //         return ERROR_MATRIX_DOESNT_INTALIZED_WELL;
-    //     }
-    // }
-
     return ERROR_SUCCESS;
+}
+
+/**
+ * @brief Get the pointer's value, of
+ * a value in the matrix.
+ * 
+ * ***assumes the matrix was already 
+ * checked by check_matrix, (or intaized as needed),
+ * and that the Indexes are in the matrix size boundry:
+ * rowIndex < (matrix->numRows) && colIndex < (matrix->numCols).
+ * (if not, would return NULL)
+ * 
+ * @param matrix the matrix (not const becuse we can
+ *  change the matrix value from the pointer).
+ * @param rowIndex of the value.
+ * @param colIndex of the value.
+ * @return double* pointer to the value.
+ */
+double* get_pointer_value(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex) {
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return NULL;
+    }
+
+    if (rowIndex >= (matrix->numRows) 
+        || colIndex >= (matrix->numCols)) {
+            return NULL;
+    }
+
+    return matrix->data + rowIndex * matrix->numRows + colIndex;
+}
+
+
+/**
+ * @brief Get the value in the matrix.
+ * 
+ * ***assumes the matrix was already 
+ * checked by check_matrix, (or intaized as needed),
+ * and that the Indexes are in the matrix size boundry:
+ * rowIndex < (matrix->numRows) && colIndex < (matrix->numCols).
+ * (if not, would return ERROR_IN_GET_VALUE)
+ * 
+ * @param matrix the matrix.
+ * @param rowIndex of the value.
+ * @param colIndex of the value.
+ * @return double the value.
+ */
+double get_value(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex) {
+    //checks Matrix
+    ErrorCode e = check_matrix(matrix);
+    if(!error_isSuccess(e)){
+        return ERROR_IN_GET_VALUE;
+    }
+
+    if (rowIndex >= (matrix->numRows) 
+        || colIndex >= (matrix->numCols)) {
+            return ERROR_IN_GET_VALUE;
+    }
+
+    return *(matrix->data + rowIndex * matrix->numRows + colIndex);
 }
