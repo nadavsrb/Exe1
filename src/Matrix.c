@@ -6,8 +6,8 @@
 ErrorCode check_matrix(CPMatrix matrix);
 
 struct Matrix {
-     int numRows; // number of rows
-     int numCols; // number of columns
+     uint32_t numRows; // number of rows
+     uint32_t numCols; // number of columns
      double** data; // a pointer to an array of numCols rows that each points to numCols double; 
 };
 
@@ -41,11 +41,11 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     }
 
     //intalizing the matrix cells
-    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
          ((*matrix)->data)[rowIndex] = (double*) malloc(width * sizeof(double));
          if (((*matrix)->data)[rowIndex] == NULL) {
                  //free each row that was alocated
-                for (int i = 0; i < rowIndex - 1; i++) {
+                for (uint32_t i = 0; i < rowIndex - 1; i++) {
                     free(((*matrix)->data)[i]);
                 }
 
@@ -58,7 +58,7 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
                 return ERROR_ALLOCATING_MEMORY;
             }
 
-        for (int colIndex = 0; colIndex < width; colIndex++) {
+        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
         ((*matrix)->data)[rowIndex][colIndex] = 0;
         }
     }
@@ -79,8 +79,8 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     }
 
     //var for helping programing
-    int height = source->numRows;
-    int width = source->numCols;
+    uint32_t height = source->numRows;
+    uint32_t width = source->numCols;
 
     //creates the copy matrix
     ErrorCode error = matrix_create(result, height, width);
@@ -89,8 +89,8 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     }
 
     //intalizing the matrix cells
-    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (int colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
         ((*result)->data)[rowIndex][colIndex] = (source->data)[rowIndex][colIndex];
         }
     }
@@ -111,11 +111,10 @@ void matrix_destroy(PMatrix matrix) {
     }
 
      //var for helping programing
-    int height = matrix->numRows;
-    int width = matrix->numCols;
+    uint32_t height = matrix->numRows;
 
     //free each row
-    for (int i = 0; i < height; i++) {
+    for (uint32_t i = 0; i < height; i++) {
          free((matrix->data)[i]);
     }
 
@@ -176,8 +175,8 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     //checks the index are in boundary
-    if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
-        || (colIndex < 0 || colIndex >= (matrix->numCols))) {
+    if (rowIndex >= (matrix->numRows)
+        || colIndex >= (matrix->numCols)) {
         return ERROR_INDEX_OUT_OF_BOUNDARY;
     }
 
@@ -201,8 +200,8 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     //checks the index are in boundary
-    if ((rowIndex < 0 || rowIndex >= (matrix->numRows)) 
-        || (colIndex < 0 || colIndex >= (matrix->numCols))) {
+    if (rowIndex >= (matrix->numRows) 
+        || colIndex >= (matrix->numCols)) {
         return ERROR_INDEX_OUT_OF_BOUNDARY;
     }
 
@@ -236,8 +235,8 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
     }
 
     //var for helping programing
-    int height = lhs->numRows;
-    int width = lhs->numCols;
+    uint32_t height = lhs->numRows;
+    uint32_t width = lhs->numCols;
 
     //creates the result matrix
     ErrorCode error = matrix_create(result, height, width);
@@ -247,8 +246,8 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
 
     //adding the matrixes
     double newVal = 0;
-    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (int colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
             newVal = (lhs->data)[rowIndex][colIndex] + (rhs->data)[rowIndex][colIndex];
 
             //no need to check for errors because I cared it won't be
@@ -282,11 +281,11 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
     }
 
     //var for helping programing (stands for the size of result)
-    int height = lhs->numRows;
-    int width = rhs->numCols;
+    uint32_t height = lhs->numRows;
+    uint32_t width = rhs->numCols;
 
     //var for help
-    int sharedSize = lhs->numCols;
+    uint32_t sharedSize = lhs->numCols;
 
     //creates the result matrix
     ErrorCode error = matrix_create(result, height, width);
@@ -296,14 +295,14 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 
     //multipling the matrixes
     double newVal = 0;
-    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (int colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
 
             //intalizing the new value
             newVal = 0;
 
             //calculating the new value
-            for (int multIndex = 0; multIndex < sharedSize; multIndex++){
+            for (uint32_t multIndex = 0; multIndex < sharedSize; multIndex++){
                 newVal += (lhs->data)[rowIndex][multIndex] * (rhs->data)[multIndex][colIndex];
             }
 
@@ -328,13 +327,13 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
     }
 
     //var for helping programing (stands for the size of result)
-    int height = matrix->numRows;
-    int width = matrix->numCols;
+    uint32_t height = matrix->numRows;
+    uint32_t width = matrix->numCols;
 
     //multipling the matrixe
     double newVal = 0;
-    for (int rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (int colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
+        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
             //calculating the new value
             newVal = scalar * (matrix->data)[rowIndex][colIndex];
 
