@@ -45,8 +45,8 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     }
 
     //intalizing the matrix cells
-    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex) {
+        for (uint32_t colIndex = 0; colIndex < width; ++colIndex) {
             *(get_pointer_value(*matrix, rowIndex, colIndex)) = 0;
         }
     }
@@ -77,8 +77,8 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     }
 
     //intalizing the matrix cells
-    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex) {
+        for (uint32_t colIndex = 0; colIndex < width; ++colIndex) {
        *(get_pointer_value(*result, rowIndex, colIndex)) = get_value(source, rowIndex, colIndex);
         }
     }
@@ -226,8 +226,8 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs){
 
     //adding the matrixes
     double newVal = 0;
-    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex) {
+        for (uint32_t colIndex = 0; colIndex < width; ++colIndex) {
             newVal = get_value(lhs, rowIndex, colIndex) + get_value(rhs, rowIndex, colIndex);
 
             //no need to check for errors because I cared it won't be
@@ -275,14 +275,14 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 
     //multipling the matrixes
     double newVal = 0;
-    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex) {
+        for (uint32_t colIndex = 0; colIndex < width; ++colIndex) {
 
             //intalizing the new value
             newVal = 0;
 
             //calculating the new value
-            for (uint32_t multIndex = 0; multIndex < sharedSize; multIndex++){
+            for (uint32_t multIndex = 0; multIndex < sharedSize; ++multIndex){
                 newVal += get_value(lhs, rowIndex, multIndex) * get_value(rhs, multIndex ,colIndex);
             }
 
@@ -312,8 +312,8 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
 
     //multipling the matrixe
     double newVal = 0;
-    for (uint32_t rowIndex = 0; rowIndex < height; rowIndex++) {
-        for (uint32_t colIndex = 0; colIndex < width; colIndex++) {
+    for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex) {
+        for (uint32_t colIndex = 0; colIndex < width; ++colIndex) {
             //calculating the new value
             newVal = scalar * get_value(matrix, rowIndex, colIndex);
 
